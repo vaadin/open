@@ -7,5 +7,16 @@
     <version>1.0-SNAPSHOT</version>
     <name>Open stuff like URLs, files, executables. Cross-platform</name>
     <description>Java port of https://github.com/sindresorhus/open</description>
-
+    <properties>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+    </dependencies>
 </project>
