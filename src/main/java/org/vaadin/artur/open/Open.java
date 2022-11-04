@@ -1,7 +1,6 @@
 package org.vaadin.artur.open;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +13,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import org.apache.commons.io.IOUtils;
 
 public class Open {
 
@@ -172,7 +169,7 @@ public class Open {
             if (options.isWait()) {
                 try {
                     int exitCode = subprocess.waitFor();
-                    if (options.isAllowNonzeroExitCode() && exitCode > 0) {
+                    if (!options.isAllowNonzeroExitCode() && exitCode > 0) {
                         return false;
                     }
                 } catch (InterruptedException e) {
@@ -181,8 +178,23 @@ public class Open {
                 }
 
                 return true;
-            } else if (consumeOutput) {
-                FileUtil.read(subprocess.getInputStream());
+            } else {
+                if (consumeOutput) {
+                    FileUtil.read(subprocess.getInputStream());
+                }
+
+                // Give it a little time to realize the command might not be found
+                for (int i = 0; i < 5; i++) {
+                    if (!subprocess.isAlive()) {
+                        if (subprocess.exitValue() != 0) {
+                            return false;
+                        }
+                    }
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                    }
+                }
             }
         } catch (IOException e1) {
             e1.printStackTrace();
