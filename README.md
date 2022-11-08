@@ -12,8 +12,8 @@ Add the dependency, e.g. if you are using Maven:
 
 ```xml
 <dependency>
-    <groupId>org.vaadin.artur</groupId>
-    <artifactId>java-open</artifactId>
+    <groupId>com.vaadin</groupId>
+    <artifactId>open</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
