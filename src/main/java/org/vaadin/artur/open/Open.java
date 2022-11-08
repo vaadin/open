@@ -198,16 +198,55 @@ public class Open {
             }
         } catch (IOException e1) {
             e1.printStackTrace();
-            // TODO IS this command not found?
             return false;
         }
         return true;
     }
 
+    /**
+     * Opens the given URL.
+     * 
+     * @param target the URL to open
+     * 
+     * @return true if the URL was launched
+     */
+    public static boolean open(String target) {
+        return open(target, new Options());
+    }
+
+    /**
+     * Opens the given URL using the given options.
+     * 
+     * @param target  the URL to open
+     * @param options the options to use
+     * 
+     * @return true if the URL was launched
+     */
     public static boolean open(String target, Options options) {
         return doOpen(target, null, new ArrayList<>(), options);
     }
 
+    /**
+     * Opens the given URL in the given application.
+     * 
+     * @param target the URL to open
+     * @param app    the application to use
+     * 
+     * @return true if the URL was launched
+     */
+    public static boolean open(String target, App app) {
+        return open(target, app, new Options());
+    }
+
+    /**
+     * Opens the given URL in the given application using the given options.
+     * 
+     * @param target  the URL to open
+     * @param app     the application to use
+     * @param options the options to use
+     * 
+     * @return true if the URL was launched
+     */
     public static boolean open(String target, App app, Options options) {
         for (String name : app.getApp()) {
             if (doOpen(target, name, new ArrayList<>(), options)) {
@@ -217,10 +256,28 @@ public class Open {
         return false;
     }
 
+    /**
+     * Opens the given application using the given arguments and options.
+     * 
+     * @param name         the name of the application to open
+     * @param appArguments the arguments to pass to the application
+     * @param options      the options to use
+     * 
+     * @return true if the URL was launched
+     */
     public static boolean openApp(String name, List<String> appArguments, Options options) {
         return doOpen(null, name, appArguments, options);
     }
 
+    /**
+     * Opens the given application using the given arguments and options.
+     * 
+     * @param app          the application to open
+     * @param appArguments the arguments to pass to the application
+     * @param options      the options to use
+     * 
+     * @return true if the URL was launched
+     */
     public static boolean openApp(App app, List<String> appArguments, Options options) {
         for (String name : app.getApp()) {
             if (doOpen(null, name, appArguments, options)) {
