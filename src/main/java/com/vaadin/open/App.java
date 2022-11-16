@@ -1,4 +1,4 @@
-package org.vaadin.artur.open;
+package com.vaadin.open;
 
 import java.util.ArrayList;
 import java.util.List;
