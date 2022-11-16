@@ -1,4 +1,4 @@
-package org.vaadin.artur.open;
+package com.vaadin.open;
 
 import java.io.File;
 import java.io.FileInputStream;
