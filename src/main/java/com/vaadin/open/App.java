@@ -67,6 +67,8 @@ public enum App {
             options.add("Brave Browser");
         } else if (OSUtils.isLinux()) {
             options.add("brave");
+            options.add("brave-browser-stable");
+            options.add("brave-browser-beta");
         }
         return options;
     }),
