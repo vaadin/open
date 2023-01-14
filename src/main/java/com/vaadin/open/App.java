@@ -49,6 +49,38 @@ public enum App {
             options.add("microsoft-edge-dev");
         }
         return options;
+    }),
+
+    SAFARI(() -> {
+        List<String> options = new ArrayList<>();
+        if (OSUtils.isMac()) {
+            options.add("Safari");
+        }
+        return options;
+    }),
+
+    BRAVE(() -> {
+        List<String> options = new ArrayList<>();
+        if (OSUtils.isWindows()) {
+            options.add("Brave");
+        } else if (OSUtils.isMac()) {
+            options.add("Brave Browser");
+        } else if (OSUtils.isLinux()) {
+            options.add("brave");
+        }
+        return options;
+    }),
+
+    OPERA(() -> {
+        List<String> options = new ArrayList<>();
+        if (OSUtils.isWindows()) {
+            options.add("Opera");
+        } else if (OSUtils.isMac()) {
+            options.add("Opera");
+        } else if (OSUtils.isLinux()) {
+            options.add("opera");
+        }
+        return options;
     });
 
     private Supplier<List<String>> appSupplier;
