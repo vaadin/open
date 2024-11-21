@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -34,15 +36,15 @@ public class Open {
         String defaultMountPoint = "/mnt/";
 
         String configFilePath = "/etc/wsl.conf";
-        File configFile = new File(configFilePath);
-        boolean isConfigFileExists = configFile.exists();
+        Path configFile = Path.of(configFilePath);
+        boolean isConfigFileExists = Files.exists(configFile);
 
         if (!isConfigFileExists) {
             return defaultMountPoint;
         }
 
         try {
-            String configContent = FileUtil.readFile(configFile);
+            String configContent = Files.readString(configFile);
             Pattern p = Pattern.compile("(?<!#.*)root\\s*=\\s*(?<mountPoint>.*)");
             Matcher matcher = p.matcher(configContent);
             if (!matcher.matches()) {
@@ -131,15 +133,12 @@ public class Open {
                 command = "xdg-open";
 
                 // Use bundled xdg-open
-                InputStream bundledXdgOpen = Open.class.getResourceAsStream("xdg-open");
-                try {
+                try (InputStream bundledXdgOpen = Open.class.getResourceAsStream("xdg-open")) {
                     File open = File.createTempFile("xdg", "open");
                     open.setExecutable(true);
                     open.deleteOnExit();
-                    try (FileOutputStream out = new FileOutputStream(open)) {
-                        FileUtil.copy(bundledXdgOpen, out);
-                        command = open.getAbsolutePath();
-                    }
+                    Files.copy(bundledXdgOpen, open.toPath());
+                    command = open.getAbsolutePath();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -180,7 +179,7 @@ public class Open {
                 return true;
             } else {
                 if (consumeOutput) {
-                    FileUtil.read(subprocess.getInputStream());
+                    subprocess.getInputStream().readAllBytes();
                 }
 
                 // Give it a little time to realize the command might not be found

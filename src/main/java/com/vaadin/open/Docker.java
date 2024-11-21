@@ -1,6 +1,8 @@
 package com.vaadin.open;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 // Port of https://github.com/sindresorhus/is-docker/blob/main/index.js
 public class Docker {
@@ -19,9 +21,9 @@ public class Docker {
     }
 
     private static boolean hasDockerCGroup() {
-        File cgroup = new File("/proc/self/cgroup");
+        Path cgroup = Path.of("/proc/self/cgroup");
         try  {
-            return FileUtil.readFile(cgroup).contains("docker");
+            return Files.readString(cgroup).contains("docker");
         } catch (Throwable t) {
             return false;
         }
